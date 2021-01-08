@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang=ko>
+
+<head>
+    <meta charset="utf-8">
+    <title>Camera Page</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+
+<body>
+    
+    <table align="center" width="1024" hight="80" id="top">
+        <tr>
+            <td width="100"><div id="disp_cal" class="calendar"></div></td>
+            <td width="100"><div id="top_clock" class="topClock"></div></td>
+            <td>&nbsp</td>
+        </tr>
+    </table>
+
+    <hr color="#999"/>
+
+    <center><h2>Camera Page</h2></center>
+    <table align="center" border="1" cellpadding="0" cellspacing="0" id="main">
+        <tr align="center" height="80">
+            <td width="300" class="thick"> 기 &nbsp; 능 </td>
+            <td width="640" class="thick">방 &nbsp; 문 &nbsp; 자 &nbsp; 상 &nbsp; 시 &nbsp; 확 &nbsp; 인</td>
+        </tr>
+        <tr align="center" height="160">
+            <td class="thick" name="fcn1"><a href="/open_door" target="iframe1">
+			<input type="button" style = "width : 300px; height : 160px;" value="출 입 문 열 기" onClick='/door_open'>
+			</a></td>
+            <td rowspan="6" width="640">
+                <iframe src="http://172.16.91.93:8090/?action=stream" width="640" height="480" srcrolling="auto" frameborder="0" border="0" bordercolor="white" marginwidth="0" marginheight="0" name="iframe2" id="ifrm2"></iframe>
+            </td>
+        </tr>
+        
+       
+		<tr align="center" height="160">
+            <td class="thick" name="fcn1"><a href="/list.html" target="iframe">
+			<input type="button" style = "width : 300px; height : 160px;" value="출 근 명 단" onClick="locationhref='/list'"></td>
+        </a></tr>
+		<tr align="center" height="160">
+            <td class="thick" name="fcn1"><a href="/record" target="iframe">
+			<input type="button" style = "width : 300px; height : 160px;" value="출 입 기 록" onClick='/record'></td>
+        </a></tr>
+    </table>
+    <!-- p><a href="/door_open"  id="open"  target="iframe">Open  Door</a></p -->
+    <!-- p><a href="/door_close" id="close" target="iframe">Close Door</a></p -->
+    
+    <div>
+        <iframe src="about:blank" width="300" height="300" srcrolling="auto" frameborder="0" border="0" bordercolor="white" marginwidth="0" marginheight="0" name="iframe1" id="ifrm1">
+        </iframe>
+    </div>
+
+    <script src="javascripts/jquery.3.3.1.min.js"></script>
+    <script src="javascripts/annyang.2.6.0.min.js"></script>
+    <script src="javascripts/ResponsiveVoice.1.5.14.js"></script>
+    <!--script src="javascripts/openweather.current.0.1.1.js"></script-->
+    <script src="javascripts/calendar_n_clock.0.1.0.js"></script>
+
+    <script>
+        function return_bg() {
+            var arr1 = document.getElementsByName("fcn1");
+            var arr2 = document.getElementsByName("fcn2");
+            for(var i=0;i<arr1.length;i++) {
+                arr1[i].style.backgroundColor = "#eaeaea";
+                arr2[i].style.backgroundColor = "#eaeaea";
+            }
+        }
+    
+        function change_bg(num) {
+            var tds1 = document.getElementsByName("fcn1");
+            var tds2 = document.getElementsByName("fcn2");
+            return_bg();
+            for(var i=0;i<tds1.length;i++){
+                if(num == i)   tds1[num].style.backgroundColor = "white";
+                if(num == i)   tds2[num].style.backgroundColor = "white";
+            }
+            
+        }
+        
+        $(document).ready(function()
+        {
+            if (annyang) 
+            {				
+                    '누구세요':function() {
+                        responsiveVoice.speak("방문자를 확인합니다.", "Korean Female");
+                        change_bg(2);
+                        //window.location.replace=("http://localhost:8000/pick_up");
+                        //window.location.href=("http://localhost:8000/pick_up");
+                        window.open=("http://localhost:8000/chk_visitor","ifrmae1");
+                        //window.open=("http://192.168.91.2:8080/stream_simple.html","ifrm2");
+                        document.getElementById("ifrm2").src = "http://192.168.91.2:8080/stream_simple.html";
+			            $.ajax({
+				            url:'/whoru',
+				            success:function(data){
+					            $('#ifrm1').text(data);
+				            console.log(data);
+				            }
+			            })
+                    },				
+                    '(확인)(화긴)그만':function() {
+                        responsiveVoice.speak("방문자 확인을 마칩니다.", "Korean Female");
+                        change_bg(3);
+                        //window.location.replace=("http://localhost:8000/hang_up");
+                        //window.location.href=("http://localhost:8000/hang_up");
+                        document.getElementById("ifrm2").src = "/empty.html";
+			            $.ajax({
+				            url:'/end_chk',
+				            success:function(data){
+					            $('#ifrm1').text(data);
+				            console.log(data);
+				            }
+			            })
+                    },	
+                    '문 (열어)(여러)':function() {
+                        responsiveVoice.speak("출입문을 엽니다.", "Korean Female");
+                        change_bg(4);
+                        //window.location.replace=("http://localhost:8000/door_open");
+                        //window.location.href=("http://localhost:8000/door_open");
+                        window.open=("http://localhost:8000/door_open","iframe1");
+			            $.ajax({
+				            url:'/door_open',
+				            success:function(data){
+					            $('#ifrm1').text(data);
+				            console.log(data);
+				            }
+			            })
+                    },				
+                    '문 (닫어)(다더)(다다)':function() {
+                        responsiveVoice.speak("출입문을 닫습니다.", "Korean Female");
+                        change_bg(5);
+                        //window.location.replace=("http://localhost:8000/door_close");
+                        //window.location.href=("http://localhost:8000/door_close");
+                        window.open=("http://localhost:8000/door_close","iframe1");
+			            $.ajax({
+				            url:'/door_close',
+				            success:function(data){
+					            $('#ifrm1').text(data);
+				            console.log(data);
+				            }
+			            })
+                    },		
+                    '넌 누구니':function() {
+                        responsiveVoice.speak("난 보이스 키친 헬퍼다", "Korean Male");
+                    },
+                    '시끄러워':function() {
+                        responsiveVoice.speak("니가 더 시끄러워!", "Korean Male");
+                    },
+                    '조용히 해':function() {
+                        responsiveVoice.speak("너나 조용하세요", "Korean Female");
+                    },
+                    '잘자':function() {
+                        responsiveVoice.speak("컴퓨터 끈다. 아일 비 백", "Korean Female");
+                    }
+                };
+                annyang.addCommands(commands);
+                annyang.removeCallback();
+                annyang.setLanguage('ko');
+                annyang.start({ autoRestart: true, continuous: false });	
+            }
+			
+        });
+		
+		function view_check(){
+			change_bg(1);
+			window.open=("http://localhost:8000/chk_visitor","ifrmae1");
+			document.getElementById("ifrm2").src = "http://172.16.91.93:8090/?action=stream";
+			$.ajax({
+				            
+				            success:function(data){
+					            $('#ifrm1').text(data);
+				            console.log(data);
+				            }
+			            })
+		}
+		
+		function open_door(){
+			alert("문이 열립니다.");
+			change_bg(2);
+			$.ajax({
+				
+				success:function(data){
+					$('#ifrm1').text(data);
+				console.log(data);
+				}
+			})
+		}
+		
+		function list(){
+			change_bg(3);
+			document.getElementById("ifrm1").src = "http://localhost:8004/list.html";;
+			$.ajax({
+				
+				success:function(data){
+					$('#ifrm1').text(data);
+				console.log(data);
+				}
+			})
+			
+			function idCheck()
+			{
+				alert("문이 열립니다.");
+
+	 
+			}
+		
+		function record(){
+			change_bg(4);
+			window.open=("http://localhost:8000/record.html","iframe1");
+			$.ajax({
+				
+				success:function(data){
+					$('#ifrm1').text(data);
+				console.log(data);
+				}
+			})
+		}
+		
+		
+        
+    </script>
+</body>
+    
+</html>

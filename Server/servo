@@ -1,0 +1,67 @@
+#!/usr/bin/env python
+
+import pigpio
+import time
+
+pinTrig  = 23
+pinServo = 24
+ 
+pi = pigpio.pi()
+pi.set_mode(pinTrig, pigpio.INPUT)
+pi.set_pull_up_down(23, pigpio.PUD_DOWN)
+
+try:
+    print "Interphone Control Demon Enabled Successfully!."
+    trig = 0
+    prev = 1
+        
+    pi.set_servo_pulsewidth(pinServo, 1300)
+    time.sleep(1)
+    
+    while True:
+        trig = pi.read(pinTrig)
+        
+        if  ( trig == 1 ):
+            # pulsewidth can only set between 500-2500
+            pi.set_servo_pulsewidth(pinServo, 2400)
+            time.sleep(0.1)
+            if( trig != prev ):
+                print "connect"
+        elif( trig == 0 ):
+            # pulsewidth can only set between 500-2500
+            pi.set_servo_pulsewidth(pinServo, 1300)
+            time.sleep(0.1)
+            if( trig != prev ):
+                print "disconnect"
+        else:
+            pass
+        
+        prev = trig
+ 
+except KeyboardInterrupt:
+    pi.set_servo_pulsewidth(pinServo, 1300)
+    time.sleep(0.1)
+    pi.stop()
+
+'''
+    3V3 . . 5V0
+      2 . . 5V0
+      3 . . GND
+      4 . . 14
+    GND . . 15
+     17 . . 18  ------ output writeSync value to relay
+     27 . . GND
+     22 ._. 23  ------ generate signal for controlling servo
+    3V3 . . 24  ------ connected to servo
+     10 . . GND
+      9 . . 25
+     11 . . 8   
+    GND . . 7
+      0 . . 1
+      5 . . GND
+      6 . . 12
+     13 . . GND
+     19 . . 16
+     26 . . 20
+    GND . . 21
+'''

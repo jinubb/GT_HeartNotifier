@@ -1,0 +1,51 @@
+html, body{
+    overflow: hidden;
+    font-family :'나눔고딕', 'Malgun Gothic', sans-serif;
+    background-color: #f0f0f0;
+    color: #404040;
+    font-size: 20px;
+}
+
+table{
+    font-family :'나눔고딕', 'Malgun Gothic', sans-serif;
+    border: 1px
+	padding: 0;
+    background-color: #eaeaea;
+    color: #404040;
+    font-size: 20px;
+    margin-left: auto
+    margin-right: auto;
+}
+
+#top{
+    height: 80px;
+    background-color: #f0f0f0;
+}
+
+#main{
+    height: 560px;
+}
+
+.thick{
+	font-weight: bold;
+}
+
+.active{
+    color: #404040;
+	font-weight: bold;
+}
+
+.topClock {
+    color: #404040;
+	font-weight: bold;
+}
+
+.calendar {
+    color: #404040;
+	font-weight: bold;
+}
+
+.temperature{
+    color: #404040;
+	font-weight: bold;
+}

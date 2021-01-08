@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Manager Page</title>
+</head>
+
+<body>
+	<h1>Manager Page</h1>
+	<a href='/insert'>Insert Data</a>
+	<hr/>
+	<table>
+		<tr>
+			<th>DELETE</th>
+			<th>EDIT</th>
+			<th>ID</th>
+			<th>Num</th>
+			<th>Name</th>
+			<th>Position</th>
+			<th>In_out</th>
+			<th>Time</th>
+		</tr>
+	<% prodList.forEach(function(item,index){ %>
+		<tr>
+			<td><a href='/delete/<%=item.id` %>'>DELETE</a></td>
+			<td><a href='/edit/<%=item.id %>'>EDIT</a></td>
+			<td><%=item.id %></td>
+			<td><%=item.num %></td>
+			<td><%=item.name %></td>
+			<td><%=item.position %></td>
+			<td><%=item.in_out %></td>
+			<td><%=item.time %></td>
+		</tr>
+	<% }); %>
+	</table>
+</body>
+
+</html>

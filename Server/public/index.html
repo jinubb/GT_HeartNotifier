@@ -1,0 +1,96 @@
+<html>
+<head>
+  <script>
+   
+   function focusId()
+   {
+     window.document.frm01.id.focus();
+   }
+
+   function focusPw()
+   {
+     window.document.frm01.pw.focus();
+   }
+
+   function idCheck()
+   {
+     if( window.document.frm01.id.value=="")
+	 {
+	   alert("Please input your ID~");
+	 }
+	 else if(window.document.frm01.id.value=="admin")
+	 {
+	   message = window.document.frm01.id.value;
+       //alert("Your ID is " + message);
+	   focusPw();
+	   passwd = window.document.frm01.pw.value;
+	   if( passwd == "" )
+	   {
+         alert("Input password~ ");
+	   }
+	   else if( passwd == "0000")
+	   {
+	     alert("Welcome! " + message);
+		 location.href="login.html";
+	   }
+	   else
+	   {
+         alert("Wrong Password!!! ");
+	   }
+	 }
+	 else
+	   {
+         alert("Wrong id!!! ");
+	   }
+   }
+
+   function enterLogin()
+   {
+     var keyVal = event.keyCode;
+	 if( keyVal == 13 )
+	   idCheck();
+	 // alert( "/'" + event.keyCode + "/' key pressed" );
+   }
+
+  </script>
+</head>
+<BODY onLoad="focusId()">
+  <form name="frm01">
+
+  <table align="center" border="0" bgcolor="gray" cellspacing="0" cellpadding="2">
+
+   <tr bgcolor="navy" height="40" align="center">
+    <td colspan="2"><font color="white">Login</font></td>
+   </tr>
+
+   <tr bgcolor="lightgray" height="10">
+    <td colspan="2"></td>
+   </tr>
+
+   <tr bgcolor="lightgray" height="40" align="center">
+    <td width="100">ID</td>
+	<td width="200">
+	 <input type="text"     name="id" onKeyDown="enterLogin()"/>
+	</td>
+   </tr>
+
+   <tr bgcolor="lightgray" height="40" align="center">
+    <td>PW</td>
+	<td>
+	 <input type="password" name="pw" onKeyDown="enterLogin()"/>
+	</td>
+   </tr>
+
+   <tr bgcolor="lightgray" height="40" align="center">
+    <td colspan="2">
+	 <input type="button" value="Login"  onClick="idCheck()" name="login"/>
+	 <input type="button" value="Cancel" name="cancel"/>
+	</td>
+   </tr>
+
+  </table>
+
+  </form>
+ </BODY>
+</html>
+			
